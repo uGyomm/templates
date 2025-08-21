@@ -33,8 +33,8 @@
  */
 
 
-// CONSTANTS DEFINITION
-// --------------------
+// CONSTANTS 
+// ---------
 #let NBSP=sym.space.nobreak //non-breaking space
 
 /**
