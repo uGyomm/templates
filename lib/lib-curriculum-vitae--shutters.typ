@@ -33,11 +33,6 @@
  * in two columns each containing multiple components that could be seen
  * as "shutters"
  * 
- * To do:
- * ------
- * 
- * Header layout is broken, and farthest component on the right should be
- * Sbetter aligned
  */
 
 // CONSTANTS
@@ -140,8 +135,7 @@
  * first_name             : Applicant's first name
  * last_name              : Applicant's last name
  * job_title              : Job's title
- * birthdate              : Applicant's birthdate, expected format is DD/MM/YYYY, any
- * longer format might break the layout
+ * birthdate              : Applicant's birthdate
  * birthdate_icon         : Icon to illustrate the birthdate
  * 
  * telephone_number       : Applicant's telephone number
@@ -177,9 +171,9 @@
 )={
     let SYMBOL_SPACING=6pt
     grid(   
-    columns: (0.7fr,0.85fr,1fr),
+    columns: (30%,30%,1fr),
     rows:4,
-    align: (bottom+left,bottom+center,bottom+left),
+    align: (bottom+left,bottom+center,bottom+right),
     column-gutter:3pt,
     row-gutter: 9pt,
 
@@ -214,6 +208,7 @@
       rowspan:4,
     )[#grid(
       columns:(2em,10em),
+      align:(left,left),
       row-gutter: 10pt,
       grid.cell(
         x:0,
