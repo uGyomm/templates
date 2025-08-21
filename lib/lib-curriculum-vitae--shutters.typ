@@ -263,14 +263,14 @@
  * ----------
  * 
  * span             : Academic background's span
- * recommended span layout is "From YYYY to YYYY"
+ * Suggested span layout is "From YYYY to YYYY"
  * 
  * type            : Background's academic type
  * 
  * name and location         : Academy's name and location
- * recommended layout is "Name, Town[· Country]"
+ * Suggested layout is "Name, Town[· Country]"
  * Bracket content is optional if the application's country and academy country
- * are identical. Otherwise, it is recommended.
+ * are identical. Otherwise, it is Suggested.
  * 
  */
 #let academic_background(
@@ -384,7 +384,7 @@
  * cefr_level     : CEFR's level(Common European Framework of Reference for
  * Languages) 
  * certification  : Certification's information
- * Recommended Layout for certification is Certification's name(Certification's
+ * Suggested layout for certification is Certification's name(Certification's
  * date)[: Certification's score]. Content in bracket is optional.
  * 
  */
@@ -497,7 +497,7 @@
  * If both raw_description and values parameters have been set,
  * values parameter takes priority over raw_description.
  * 
- * To improve readibility, it is recommended to couple raw_description
+ * To improve readibility, it is suggested to couple raw_description
  * only with the "title" parameter.
  * 
  */
@@ -612,7 +612,7 @@
  * title : Job experience's title
  * location : Job experience's location
  * span : Job experience's span.
- * Recommended layout is "Month YYYY - Month YYYY"
+ * Suggested layout is "Month YYYY - Month YYYY"
  * 
  * description : Job experience's description.
  * To improve readability, minimize description's length.
@@ -690,7 +690,7 @@
  * 
  * title : Project's title
  * missions : List of missions carried out during the academic project
- * duration : Project's duration (recommended to give in hours) 
+ * duration : Project's duration (Suggested to give in hours) 
  * 
  */
 #let academic_project(
@@ -753,9 +753,9 @@
  * Notes
  * -----
  * 
- * "left_content" and "right_content" parameters recommended usage
+ * "left_content" and "right_content" parameters Suggested usage
  * involves content block. Inside the content block, information must be 
- * ordered as wished.
+ * ordered as desired.
  * 
  */
 #let curriculum_vitae(
