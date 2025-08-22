@@ -34,7 +34,8 @@
  * To do
  * -----
  * 
- * Manage technical skills and hobbies using bicephalic information
+ * Manage applicant's image
+ * About should be centered and justified
  * 
  */
 
@@ -169,9 +170,11 @@
  * Parameters
  * ----------
  * 
- * title      : Container's title
+ * left_title      : Container's left title
  * Components are "specialization" - oriented.
  * The purpose of this title parameter is to display the specialization
+ * 
+ * Right_title      : Bicephalic title to add right aligned information
  * name
  * 
  * spacing          : Spacing length between containers
@@ -181,17 +184,32 @@
  */
 
 #let information(
-  title:"title",
+  left_title:"Left title",
+  right_title:none,
   spacing:0.8em,
   ..values,
 )={
     v(2.3em,weak:true)
-    upper()[
+    
+    if left_title != none and right_title == none{
+      upper()[
       #v(10pt)
-      #text(title,fill:TITLE_COLOR,size:CHAPTER_FONT_SIZE,weight:"bold")
+      #text(left_title,fill:TITLE_COLOR,size:CHAPTER_FONT_SIZE,weight:"bold")
       #box(baseline:-0.75pt,width: 1fr, line(length: 100%,
       stroke:0.15pt + TITLE_COLOR))
     ]
+    }
+
+    if left_title != none and right_title != none{
+      upper()[
+      #v(10pt)
+      #text(left_title,fill:TITLE_COLOR,size:CHAPTER_FONT_SIZE,weight:"bold")
+      #box(baseline:-0.75pt,width: 1fr, line(length: 100%,stroke:0.15pt + TITLE_COLOR)) 
+      #text(right_title,fill:TITLE_COLOR,size:CHAPTER_FONT_SIZE,weight:"bold")
+      ]
+    }
+
+
     
     v(spacing,weak:true)
     if values.pos().len()>0{
@@ -388,64 +406,113 @@
   ]
 }
 
-#let footnote_info(
-  date:datetime.today(),
-  author: "John Doe",
-  object: "Sheet",
-  identifier: "0123456789"
+/**
+ * Creates the template footer.
+ * 
+ * Parameters
+ * ----------
+ * date          : Revision date for application
+ * first_name    : Applicant's first name
+ * last_name     : Applicant's last name
+ * type          : Application's typename
+ * identifer     : Application's identifier
+ * 
+ * Notes
+ * -----
+ * 
+ * This function should not be called externally
+ * 
+ */
+#let footer_information(
+  date:none,
+  first_name:none,
+  last_name:none,
+  type: none,
+  identifier: none,
 )={
   
   align(bottom)[
 
     #text(date.display("[year]/[month]/[day]"),size:DETAIL_FONT_SIZE,fill:DURATION_COLOR) #h(1fr)
-    #text(size:DETAIL_FONT_SIZE,fill:DURATION_COLOR)[#author · #object] #h(1fr) 
+    #text(size:DETAIL_FONT_SIZE,fill:DURATION_COLOR)[#first_name #last_name · #type] #h(1fr) 
     #text(size:DETAIL_FONT_SIZE,fill:DURATION_COLOR)[#identifier]
     ]
   }
 
-#let bi_title(
-  left_title:"Left Title",
-  right_title:"right title"
-)=context{
 
-  upper()[
-      #v(10pt)
-      #text(left_title,fill:TITLE_COLOR,size:CHAPTER_FONT_SIZE,weight:"bold")
-      #box(baseline:-0.75pt,width: 1fr, line(length: 100%,
-      stroke:0.15pt + TITLE_COLOR)) 
-      #text(right_title,fill:TITLE_COLOR,size:CHAPTER_FONT_SIZE,weight:"bold")
-  ]
-  
-}
 
+/**
+ * Creates a bicephalic component hosting:
+ * on the left : technical skill
+ * on the right : language proficiency
+ * 
+ * Parameters
+ * ----------
+ * technical_field : technical field targeted by  declared tools
+ * tools: List of tools
+ * language       : Language's name
+ * cefr_level     : CEFR's level(Common European Framework of Reference for
+ * Languages) 
+ * certification  : Certification's information
+ * Suggested layout for certification is Certification's name(Certification's
+ * date)[: Certification's score]. Content in bracket is optional.
+ * 
+ * Notes
+ * -----
+ * 
+ * It 
+ * 
+ */
 #let CUSTOM_ALIGN=190pt
-#let skill(
-  skill_title:none,
+#let technical_skill_and_language_proficiency(
+  technical_field:none,
   tools:none,
-  language_name:none,
-  language_level:none,
-  language_certification:none,
+  language:none,
+  cefr_level:none,
+  certification:none,
 )={
   v(0.65em,weak:true)
 
   grid(
     //Columns size is based on experience
     // it should expect the biggest length possible
+    // not robust
     columns: (180pt,CUSTOM_ALIGN,5.5em,1.75em,1fr),
-    align: left,
+    align: (left,left,left,left,right),
     column-gutter:1pt,
-    [#smallcaps[#text(skill_title,weight:550,size:TITLE_FONT_SIZE)]], 
-    [#text(tools,size:TITLE_FONT_SIZE)],
-    [#smallcaps[#text(language_name,weight:550,size:TITLE_FONT_SIZE)]],
-    [#text(language_level,size:TITLE_FONT_SIZE,weight:400)],
-    [#text(language_certification,size:INFO_FONT_SIZE,style:"italic")]
+    [#smallcaps[#text(technical_field,weight:550,size:TITLE_FONT_SIZE)]], 
+    [#tools_enum(..tools)],
+    [#smallcaps[#text(language,weight:550,size:TITLE_FONT_SIZE)]],
+    [#text(cefr_level,size:TITLE_FONT_SIZE,weight:400)],
+    [#text(certification,size:INFO_FONT_SIZE,style:"italic")]
   )
 }
 
-#let skill_and_hobby(
-  skill_title:none,
-  tools:none,
-  hobby:"Hobbies",
+/**
+ * Creates a bicephalic component hosting:
+ * on the left : technical skill
+ * on the right : category title
+ * 
+ * Parameters
+ * ----------
+ * technical_field : technical field targeted by  declared tools
+ * tools: List of tools
+ * title : Category Title
+ * 
+ * Notes
+ * -----
+ * 
+ * This template is not intended to be divided in columns.
+ * However, in the case that there may some free space available,
+ * This function offers the possibility to fill it.
+ * 
+ * It should be paired with technical_skill_and_other
+ * 
+ */
+#let technical_skill_and_title(
+  technical_field:"Technical field",
+  tools:("Tool A", "Tool B","Tool C"),
+  title:"Title",
 )={
   v(0.65em,weak:true)
 
@@ -455,9 +522,9 @@
     columns: (180pt,CUSTOM_ALIGN,1fr),
     align: left,
     column-gutter:1pt,
-    [#smallcaps[#text(skill_title,weight:550,size:TITLE_FONT_SIZE)]], 
-    [#text(tools,size:TITLE_FONT_SIZE)],
-    [#upper(text(hobby,fill:TITLE_COLOR,size:TITLE_FONT_SIZE,weight:"bold"))
+    [#smallcaps[#text(technical_field,weight:550,size:TITLE_FONT_SIZE)]], 
+    [#tools_enum(..tools)],
+    [#upper(text(title,fill:TITLE_COLOR,size:TITLE_FONT_SIZE,weight:"bold"))
     //don't know why line length has to be so big
     #box(baseline:-0.75pt,width: 1fr, line(length:100%,
       stroke:0.15pt + TITLE_COLOR))
@@ -466,12 +533,31 @@
 }
 
 
-#let skill_and_hobbies(
-  skill_title:none,
-  tools:none,
-  hobby1:"Obione",
-  hobby2:"Hobby2",
-  hobby3:"Hobby3"
+/**
+ * Creates a bicephalic component hosting:
+ * on the left : technical skill
+ * on the right : category title
+ * 
+ * Parameters
+ * ----------
+ * technical_field : technical field targeted by  declared tools
+ * tools: List of tools
+ * other : String to provide additional information
+ * 
+ * Notes
+ * -----
+ * 
+ * This template is not intended to be divided in columns.
+ * However, in the case that there may some free space available,
+ * This function offers the possibility to fill it.
+ * 
+ * It should be paired with technical_skill_and_other
+ * 
+ */
+#let technical_skill_and_other(
+  technical_field:"Technical field",
+  tools:("Tool A","Tool B","Tool C"),
+  other:"other",
 )={
   v(0.65em,weak:true)
 
@@ -481,13 +567,39 @@
     columns: (180pt,CUSTOM_ALIGN,1fr),
     align: left,
     column-gutter:1pt,
-    [#smallcaps[#text(skill_title,weight:550,size:TITLE_FONT_SIZE)]], 
-    [#text(tools,size:TITLE_FONT_SIZE)],
-    [#smallcaps[#text(weight:550,size:INFO_FONT_SIZE)[
-      #hobby1 #h(1fr,weak:true) #hobby2 #h(1fr,weak:true)#hobby3]]]
+    [#smallcaps[#text(technical_field,weight:550,size:TITLE_FONT_SIZE)]], 
+    [#tools_enum(..tools)],
+    [#smallcaps[#text(other,weight:550,size:INFO_FONT_SIZE)]]
   )
 }
 
+/**
+ * Creates a standard curriculum vitae template
+ * 
+ * Parameters
+ * ----------
+ * first_name : Applicant's first name
+ * last_name : Applicant's last name
+ * title : Application's title
+ * mail_address : Applicant's mail address
+ * telephone_number : Applicant's telephone number
+ * birthdate : Applicant's birthdate
+ * address : Applicant's address
+ * nationality : Applicant's nationality
+ * about : About the applicant
+ * 
+ * edition_date : CV's edition date
+ * identifier : Application's identifier
+ * type : Document's type
+ * content : Sinking argument that captures components
+ * 
+ * Notes
+ * -----
+ * 
+ *  Suggested usage for content parameter is content block.
+ *  Inside it, information from components should be ordered as desired.
+ * 
+ */
 #let curriculum_vitae(
   first_name:"John",
   last_name:"Doe",
@@ -499,7 +611,10 @@
   nationality:"Nationality",
   about:lorem(25),
 
-  content:none
+  edition_date:datetime.today(),
+  identifier:"0123456789",
+  type:"Curriculum Vitae",
+  content:[]
 )={
   show:page_information.with()
   header_information(
@@ -514,4 +629,12 @@
   about:about,
   )
   content
+
+  footer_information(
+    date:edition_date,
+    first_name: first_name,
+    last_name: last_name,
+    identifier: identifier,
+    type:type
+  )
 }

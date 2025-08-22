@@ -730,37 +730,32 @@
  * left_content : CV's left content.
  * right_content : CV's right content.
  * 
- * For :
- * "first_name"
- * "last_name"
- * "job_title"
- * "birthdate"
- * "birthdate_icon"
- * "telephone_number"
- * "telephone_number_icon"
- * "address"
- * "address_icon"
- * "mail_address"
- * "mail_address_icon"
- * please refer to @header_information documentation
+ * first_name             : Applicant's first name
+ * last_name              : Applicant's last name
+ * job_title              : Application's title
+ * birthdate              : Applicant's birthdate
+ * birthdate_icon         : Birthdate icon
+ * telephone_number       : Applicant's telephone number
+ * telephone_number_icon  : Telephone number icon
+ * address                : Applicant's address
+ * address_icon           : Address icon
+ * mail_address           : Applicant's mail address
+ * mail_address_icon      : Mail address icon
  * 
- * For :
- * "date"
- * "document"
- * "identifier"
- * please refer to @footer_information
+ * edition_date           : Application's edition date 
+ * document               : Document type
+ * identifier             : Application's identifier
  * 
  * Notes
  * -----
  * 
- * "left_content" and "right_content" parameters Suggested usage
- * involves content block. Inside the content block, information must be 
- * ordered as desired.
+ *  Suggested usage for "left_content" and "right_content" parameter is content block.
+ *  Inside them, information from components should be ordered as desired.
  * 
  */
 #let curriculum_vitae(
-  left_content:"left_content",
-  right_content:"right_content",
+  left_content:[],
+  right_content:[],
 
   first_name:"John",
   last_name:"Doe",
@@ -777,7 +772,7 @@
   mail_address:"johndoe@mail.com",
   mail_address_icon:emoji.mail.arrow,
 
-  date:datetime.today(),
+  edition_date:datetime.today(),
   document: "Curriculum Vitae",
   identifier: "JOBID0123456789"
 
@@ -815,7 +810,7 @@
   )
 
   footer_information(
-    date:date,
+    date:edition_date,
     first_name: first_name,
     last_name:last_name,
     document:document,
